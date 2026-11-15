@@ -143,3 +143,14 @@ Voice answers, custom question banks, more roles, per-user rate limits, hosted d
 - `docs/user-guide.md`: how to use the app
 - `docs/prompts.md`: prompt design
 - `docs/test-log.md`: manual test results
+
+## Screenshots
+
+### Home
+![Home page](docs/screenshots/home.png)
+
+### Choose a role and level
+![New interview](docs/screenshots/new-interview.png)
+
+### Interview session with instant feedback
+![Interview session](docs/screenshots/interview.png)
