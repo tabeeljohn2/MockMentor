@@ -31,13 +31,26 @@ export default function NewInterviewPage() {
   }, [router]);
 
   async function handleStart() {
-    setError("");
-    setLoading(true);
-    // TODO (Step 5): call POST /api/interview/start with { role, level },
-    // then router.push(`/interview/${sessionId}`)
-    console.log("Starting interview:", { role, level });
+  setError("");
+  setLoading(true);
+  try {
+    const token = await auth.currentUser?.getIdToken();
+    const res = await fetch("/api/interview/start", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ role, level }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error ?? "Something went wrong");
+    router.push(`/interview/${data.sessionId}`);
+  } catch (err: any) {
+    setError(err.message ?? "Something went wrong");
     setLoading(false);
   }
+}
 
   if (checking) return <p className="p-6">Loading...</p>;
 
