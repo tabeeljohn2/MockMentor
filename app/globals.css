@@ -1,26 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #dfe9fb;
+  color: #1b1511;
+  font-family: "Instrument Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
+
+/* Thin, large uppercase headlines */
+.display {
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+/* ---- MockMentor colors (plain CSS, so they always apply) ---- */
+
+/* Backgrounds */
+.bg-page { background-color: #dfe9fb; }
+.bg-ink { background-color: #1b1511; }
+.bg-brand { background-color: #ff5a00; }
+.bg-cloud { background-color: #f4f4f4; }
+.bg-butter { background-color: #fff3cc; }
+.bg-ice { background-color: #d9e5fb; }
+.bg-peach { background-color: #fde3d7; }
+.bg-ink\/10 { background-color: rgb(27 21 17 / 0.1); }
+
+/* Text */
+.text-ink { color: #1b1511; }
+.text-ink\/50 { color: rgb(27 21 17 / 0.5); }
+.text-ink\/60 { color: rgb(27 21 17 / 0.6); }
+.text-ink\/70 { color: rgb(27 21 17 / 0.7); }
+.hover\:text-ink:hover { color: #1b1511; }
+
+/* Borders, rings, underlines */
+.border-ink\/20 { border-color: rgb(27 21 17 / 0.2); }
+.border-ink\/30 { border-color: rgb(27 21 17 / 0.3); }
+.ring-brand { --tw-ring-color: #ff5a00; }
+.focus\:ring-brand:focus { --tw-ring-color: #ff5a00; }
+.decoration-brand { text-decoration-color: #ff5a00; }

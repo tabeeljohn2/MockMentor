@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
+import AppShell from "@/components/AppShell";
 
 type Item = {
   id: string;
@@ -45,50 +46,62 @@ export default function HistoryPage() {
     return () => unsub();
   }, [router]);
 
-  if (loading) return <p className="p-6">Loading...</p>;
-
   return (
-    <main className="mx-auto max-w-2xl p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Your interviews</h1>
-        <Link href="/interview/new" className="rounded bg-blue-600 px-4 py-2 font-semibold text-white">
-          New interview
-        </Link>
-      </div>
-
-      {error && <p className="mt-4 text-sm text-red-400">{error}</p>}
-      {!error && items.length === 0 && (
-        <p className="mt-6 text-gray-400">No interviews yet. Start your first one!</p>
-      )}
-
-      <ul className="mt-6 flex flex-col gap-3">
-        {items.map((s) => (
-          <li key={s.id}>
+    <AppShell>
+      <div className="flex-1 overflow-y-auto">
+        <div className="mx-auto max-w-3xl">
+          <div className="flex items-end justify-between gap-4">
+            <h1 className="display text-5xl sm:text-6xl">
+              Your
+              <br />
+              interviews
+            </h1>
             <Link
-              href={`/interview/${s.id}`}
-              className="flex items-center justify-between rounded border border-gray-700 p-4 hover:border-blue-500"
+              href="/interview/new"
+              className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white"
             >
-              <div>
-                <p className="font-semibold">
-                  {s.role} · {s.level}
-                </p>
-                <p className="text-sm text-gray-400">
-                  {s.startedAt ? new Date(s.startedAt).toLocaleString() : ""}
-                </p>
-              </div>
-              <div className="text-right">
-                {s.status === "completed" ? (
-                  <p className="text-lg font-bold">{s.overallScore}/10</p>
-                ) : (
-                  <p className="text-sm text-yellow-400">
-                    In progress ({s.answeredCount}/{s.totalQuestions})
-                  </p>
-                )}
-              </div>
+              New interview
             </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+          </div>
+
+          {loading && <p className="mt-6">Loading...</p>}
+          {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+          {!loading && !error && items.length === 0 && (
+            <p className="mt-6 text-ink/60">No interviews yet. Start your first one!</p>
+          )}
+
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+            {items.map((s) => (
+              <li key={s.id}>
+                <Link
+                  href={`/interview/${s.id}`}
+                  className="block rounded-3xl bg-white p-3 transition hover:shadow-md"
+                >
+                  <div className="px-3 pb-2 pt-2">
+                    <p className="text-lg">{s.role}</p>
+                    <p className="text-xs text-ink/60">
+                      {s.level} · {s.startedAt ? new Date(s.startedAt).toLocaleDateString() : ""}
+                    </p>
+                  </div>
+                  {s.status === "completed" ? (
+                    <div className="flex items-center justify-between rounded-2xl bg-brand px-4 py-3 text-white">
+                      <span className="text-sm">Overall score</span>
+                      <span className="text-2xl font-light">{s.overallScore}/10</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between rounded-2xl bg-cloud px-4 py-3">
+                      <span className="text-sm">In progress</span>
+                      <span className="text-sm text-ink/60">
+                        {s.answeredCount}/{s.totalQuestions}
+                      </span>
+                    </div>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </AppShell>
   );
 }
