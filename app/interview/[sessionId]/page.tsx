@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { onAuthStateChanged } from "firebase/auth";
@@ -24,8 +24,8 @@ async function api(path: string, method: "GET" | "POST", body?: unknown) {
   return data;
 }
 
-export default function InterviewPage() {
-  const { sessionId } = useParams<{ sessionId: string }>();
+function InterviewContent() {
+    const { sessionId } = useParams<{ sessionId: string }>();
   const router = useRouter();
 
   const [ready, setReady] = useState(false);
@@ -43,6 +43,7 @@ export default function InterviewPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  
   // Load the session (and redirect to login if signed out)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
@@ -204,6 +205,15 @@ export default function InterviewPage() {
           {loading ? "Creating your summary..." : "Finish and see summary"}
         </button>
       )}
+      
     </main>
+  );
+}
+
+export default function InterviewPage() {
+  return (
+    <Suspense fallback={<p className="p-6">Loading...</p>}>
+      <InterviewContent />
+    </Suspense>
   );
 }

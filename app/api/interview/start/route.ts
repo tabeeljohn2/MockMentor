@@ -5,6 +5,8 @@ import { askAi } from "@/lib/openai";
 import { startingDifficulty, TOTAL_QUESTIONS, type Level } from "@/lib/adaptive";
 import { systemPrompt, firstQuestionPrompt, parseQuestion } from "@/lib/prompts";
 
+export const maxDuration = 60;
+
 const ROLES = ["Frontend Developer", "Backend Developer", "Data Analyst", "Product Manager"];
 const LEVELS = ["Junior", "Mid", "Senior"];
 
